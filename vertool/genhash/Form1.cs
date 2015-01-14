@@ -31,20 +31,23 @@ namespace genhash
         void InitVerAndPath()
         {
             ver = Verall.Read("./");
-            if(ver==null)
+            if (ver == null)
             {
                 ver = new Verall();
-                string[] groups=              System.IO.Directory.GetDirectories("./");
-                foreach(var g in groups)
+            }
+            string[] groups = System.IO.Directory.GetDirectories("./");
+            foreach (var g in groups)
+            {
+                string path = g.Substring(2).ToLower();
+                VerInfo vinfo ;
+                if (ver.groups.TryGetValue(path, out vinfo))
                 {
-                    string path = g.Substring(2).ToLower();
-                    if (path.IndexOf("path") == 0)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
+                else
+                {
                     ver.groups[path] = new VerInfo(path);
                 }
-                ver.ver = 0;
             }
         }
 
